@@ -116,13 +116,6 @@ export default function Home() {
           </p>
 
           <p className={s.p}>
-            <b>email:</b>{" "}
-            <a className={s.linkAlt} href={EMAIL}>
-              ir@vincenttodd.com
-            </a>
-          </p>
-
-          <p className={s.p}>
             <b>wanna chat?</b>{" "}
             <a className={s.link} href={EMAIL}>
               hit me up
