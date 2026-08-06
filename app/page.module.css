@@ -1,0 +1,158 @@
+/*
+ * Faithful recreation of the richardzphotoz.com (Google Sites) "me" page
+ * design: fixed Times header, EB Garamond display heading, Crimson Text
+ * body copy with yellow highlighter accents and blue underlined links.
+ * Values (pt sizes, colors, spacing) are lifted from that site's theme CSS.
+ */
+
+.page {
+  background: #fff;
+  color: rgba(28, 28, 28, 1);
+  min-height: 100vh;
+}
+
+/* ---- Header: fixed top bar, site name left / nav right ---- */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 8px 0 36px;
+  background: #fff;
+  white-space: nowrap;
+}
+
+.siteTitle {
+  font-family: Times, "Times New Roman", serif;
+  font-size: 15pt;
+  line-height: 1;
+  color: rgba(28, 28, 28, 1);
+  text-decoration: none;
+  padding: 16px 12px; /* left edge of text lands at 48px, flush with content */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.navItem {
+  font-family: Times, "Times New Roman", serif;
+  font-size: 12pt;
+  font-weight: bold; /* current page is shown bold */
+  color: rgba(28, 28, 28, 1);
+  text-decoration: none;
+  padding: 10px 12px;
+}
+
+/* ---- Content column ---- */
+
+.main {
+  padding-top: 56px; /* clear the fixed header */
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 48px 96px;
+}
+
+/* Stacked Google Sites section/spacer padding above the heading */
+.heading {
+  margin: 0;
+  padding-top: calc(174px + 34pt);
+  padding-bottom: 28px;
+  font-family: var(--font-eb-garamond), "EB Garamond", Arial, serif;
+  font-weight: 700;
+  font-size: 34pt;
+  line-height: 1.38;
+  color: #000;
+  text-align: left;
+}
+
+.headingSpace {
+  font-size: 12pt;
+}
+
+.headingSub {
+  font-size: 10pt;
+  vertical-align: baseline;
+}
+
+/* ---- Body copy ---- */
+
+.p {
+  margin: 12pt 0 0;
+  font-family: var(--font-crimson-text), "Crimson Text", Arial, serif;
+  font-weight: 400;
+  font-size: 12pt;
+  line-height: 1.5;
+  color: #434343;
+  text-align: left;
+}
+
+.tight {
+  line-height: 1.38;
+}
+
+.hl {
+  background-color: #ffff00;
+}
+
+.link {
+  color: #4a86e8;
+  text-decoration: underline;
+}
+
+.linkSep {
+  color: #4a86e8;
+}
+
+/* ---- Responsive (breakpoints match the original theme) ---- */
+
+@media only screen and (max-width: 1279px) and (min-width: 768px) {
+  .heading {
+    font-size: 34pt;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .nav {
+    display: none;
+  }
+
+  .header {
+    padding-left: 16px;
+  }
+
+  .siteTitle {
+    font-size: 14pt;
+  }
+
+  .container {
+    max-width: 544px;
+  }
+
+  .heading {
+    font-size: 30pt;
+    padding-top: calc(136px + 34pt);
+  }
+}
+
+@media only screen and (max-width: 479px) {
+  .siteTitle {
+    font-size: 13pt;
+  }
+
+  .heading {
+    font-size: 25pt;
+  }
+}
