@@ -1,39 +1,53 @@
 /*
  * Faithful recreation of the richardzphotoz.com (Google Sites) "me" page
- * design: fixed Times header, EB Garamond display heading, Crimson Text
- * body copy with yellow highlighter accents and blue underlined links.
- * Values (pt sizes, colors, spacing) are lifted from that site's theme CSS.
+ * design: Times header, EB Garamond display heading, Crimson Text body copy
+ * with yellow highlighter accents and blue underlined links.
+ *
+ * The page is locked to a single viewport (no scroll) AND scales to fill it.
+ * Everything is sized from one unit, --f, so the whole layout grows and
+ * shrinks together. Because the text column's max-width is also expressed in
+ * that unit, line wrapping stays constant as --f changes, which keeps the
+ * total content height proportional to --f and makes the fit predictable.
  */
 
 .page {
+  /*
+   * The master scale unit.
+   *   - 2.6vh  : height-driven, so content fills the viewport top to bottom
+   *   - 100vw/88: width guard, sized so the longest paragraph stays on a
+   *               single line inside the 78em column (see .container)
+   *   - 11px..64px: floor for tiny phones, ceiling for very large displays
+   */
+  --f: clamp(11px, min(2.6vh, 100vw / 88), 64px);
+
   background: #fff;
   color: rgba(28, 28, 28, 1);
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-/* ---- Header: fixed top bar, site name left / nav right ---- */
+/* ---- Header: top bar, site name left / nav right ---- */
 
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;
+  flex: none;
   display: flex;
   align-items: center;
-  height: 56px;
-  padding: 0 8px 0 36px;
+  height: calc(var(--f) * 3.2);
+  padding: 0 calc(var(--f) * 0.5) 0 calc(var(--f) * 1.5);
   background: #fff;
   white-space: nowrap;
 }
 
 .siteTitle {
   font-family: Times, "Times New Roman", serif;
-  font-size: 15pt;
+  font-size: calc(var(--f) * 1.25);
   line-height: 1;
   color: rgba(28, 28, 28, 1);
   text-decoration: none;
-  padding: 16px 12px; /* left edge of text lands at 48px, flush with content */
+  padding: 0 calc(var(--f) * 0.75); /* text lands flush with the content column */
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -46,61 +60,73 @@
 
 .navItem {
   font-family: Times, "Times New Roman", serif;
-  font-size: 12pt;
+  font-size: calc(var(--f) * 1);
   font-weight: bold; /* current page is shown bold */
   color: rgba(28, 28, 28, 1);
   text-decoration: none;
-  padding: 10px 12px;
+  padding: calc(var(--f) * 0.6) calc(var(--f) * 0.75);
 }
 
-/* ---- Content column ---- */
+/* ---- Content column: fills the remaining height, vertically centred ---- */
 
 .main {
-  padding-top: 56px; /* clear the fixed header */
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
 .container {
-  max-width: 1280px;
+  font-size: var(--f); /* every child below is sized in em off this */
+  width: 100%;
+  /* Wide measure: keeps each bullet on one line on desktop. */
+  max-width: 78em;
   margin: 0 auto;
-  padding: 0 48px 96px;
+  padding: 0 2.25em 1.6em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85em;
 }
 
-/* Stacked Google Sites section/spacer padding above the heading */
 .heading {
-  margin: 0;
-  padding-top: calc(174px + 34pt);
-  padding-bottom: 28px;
+  margin: 0 0 0.5em;
   font-family: var(--font-eb-garamond), "EB Garamond", Arial, serif;
   font-weight: 700;
-  font-size: 34pt;
-  line-height: 1.38;
+  font-size: 2.83em; /* 34pt against 12pt body, as in the original */
+  line-height: 1.2;
   color: #000;
   text-align: left;
 }
 
 .headingSpace {
-  font-size: 12pt;
+  font-size: 0.36em;
 }
 
 .headingSub {
-  font-size: 10pt;
+  font-size: 0.3em;
   vertical-align: baseline;
 }
 
 /* ---- Body copy ---- */
 
 .p {
-  margin: 12pt 0 0;
+  margin: 0;
   font-family: var(--font-crimson-text), "Crimson Text", Arial, serif;
   font-weight: 400;
-  font-size: 12pt;
-  line-height: 1.5;
+  font-size: 1em;
+  line-height: 1.42;
   color: #434343;
   text-align: left;
 }
 
 .tight {
-  line-height: 1.38;
+  line-height: 1.32;
+}
+
+/* Extra breathing room where the original used <br> spacers */
+.spaced {
+  margin-top: 0.85em;
 }
 
 .hl {
@@ -116,11 +142,16 @@
   color: #4a86e8;
 }
 
-/* ---- Responsive (breakpoints match the original theme) ---- */
+/* ---- Responsive ---- */
 
-@media only screen and (max-width: 1279px) and (min-width: 768px) {
-  .heading {
-    font-size: 34pt;
+/*
+ * Portrait viewports are width-bound: the column already spans the screen, so
+ * the only way to use the extra height is a narrower measure in em terms,
+ * which lets --f grow and the copy wrap into more (larger) lines.
+ */
+@media only screen and (max-aspect-ratio: 1 / 1) {
+  .page {
+    --f: clamp(11px, min(2.5vh, 100vw / 33), 64px);
   }
 }
 
@@ -129,30 +160,37 @@
     display: none;
   }
 
-  .header {
-    padding-left: 16px;
-  }
-
-  .siteTitle {
-    font-size: 14pt;
+  .page {
+    --f: clamp(11px, min(2.3vh, 100vw / 27), 64px);
   }
 
   .container {
-    max-width: 544px;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
   }
 
-  .heading {
-    font-size: 30pt;
-    padding-top: calc(136px + 34pt);
+  .header {
+    padding-left: calc(var(--f) * 0.75);
   }
 }
 
-@media only screen and (max-width: 479px) {
-  .siteTitle {
-    font-size: 13pt;
+/*
+ * Short viewports (landscape phones): height is the binding constraint and a
+ * narrow column would wrap into more lines than fit, so widen the measure and
+ * shed the non-essential spacing.
+ */
+@media only screen and (max-height: 560px) {
+  .page {
+    /* Lower floor: the 11px floor would force wrapping that cannot fit here. */
+    --f: clamp(8px, min(2.6vh, 100vw / 88), 64px);
+  }
+
+  .container {
+    padding-bottom: 0.6em;
+    gap: 0.7em;
   }
 
   .heading {
-    font-size: 25pt;
+    margin-bottom: 0.35em;
   }
 }
