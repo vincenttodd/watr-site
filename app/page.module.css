@@ -1,27 +1,30 @@
 /*
  * Faithful recreation of the richardzphotoz.com (Google Sites) "me" page
- * design: fixed Times header, EB Garamond display heading, Crimson Text
- * body copy with yellow highlighter accents and blue underlined links.
- * Values (pt sizes, colors, spacing) are lifted from that site's theme CSS.
+ * design: Times header, EB Garamond display heading, Crimson Text body copy
+ * with yellow highlighter accents and blue underlined links.
+ *
+ * The page is locked to a single viewport (no scroll): the shell is a full
+ * -height flex column, and type/spacing scale off viewport height so the whole
+ * bio fits on one screen from small phones up to large desktops.
  */
 
 .page {
   background: #fff;
   color: rgba(28, 28, 28, 1);
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-/* ---- Header: fixed top bar, site name left / nav right ---- */
+/* ---- Header: top bar, site name left / nav right ---- */
 
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;
+  flex: none;
   display: flex;
   align-items: center;
-  height: 56px;
+  height: clamp(40px, 6vh, 56px);
   padding: 0 8px 0 36px;
   background: #fff;
   white-space: nowrap;
@@ -29,11 +32,11 @@
 
 .siteTitle {
   font-family: Times, "Times New Roman", serif;
-  font-size: 15pt;
+  font-size: clamp(13pt, 1.9vh, 15pt);
   line-height: 1;
   color: rgba(28, 28, 28, 1);
   text-decoration: none;
-  padding: 16px 12px; /* left edge of text lands at 48px, flush with content */
+  padding: 0 12px; /* left edge of text lands at 48px, flush with content */
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -46,61 +49,71 @@
 
 .navItem {
   font-family: Times, "Times New Roman", serif;
-  font-size: 12pt;
+  font-size: clamp(10pt, 1.5vh, 12pt);
   font-weight: bold; /* current page is shown bold */
   color: rgba(28, 28, 28, 1);
   text-decoration: none;
   padding: 10px 12px;
 }
 
-/* ---- Content column ---- */
+/* ---- Content column: fills the remaining height, vertically centred ---- */
 
 .main {
-  padding-top: 56px; /* clear the fixed header */
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
 .container {
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 48px 96px;
+  padding: 0 48px clamp(12px, 4vh, 56px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 1.3vh, 16px);
 }
 
-/* Stacked Google Sites section/spacer padding above the heading */
 .heading {
-  margin: 0;
-  padding-top: calc(174px + 34pt);
-  padding-bottom: 28px;
+  margin: 0 0 clamp(6px, 1.6vh, 28px);
   font-family: var(--font-eb-garamond), "EB Garamond", Arial, serif;
   font-weight: 700;
-  font-size: 34pt;
-  line-height: 1.38;
+  font-size: clamp(22px, calc(3.6vh + 0.7vw), 34pt);
+  line-height: 1.25;
   color: #000;
   text-align: left;
 }
 
 .headingSpace {
-  font-size: 12pt;
+  font-size: 0.36em;
 }
 
 .headingSub {
-  font-size: 10pt;
+  font-size: 0.3em;
   vertical-align: baseline;
 }
 
 /* ---- Body copy ---- */
 
 .p {
-  margin: 12pt 0 0;
+  margin: 0;
   font-family: var(--font-crimson-text), "Crimson Text", Arial, serif;
   font-weight: 400;
-  font-size: 12pt;
-  line-height: 1.5;
+  font-size: clamp(11.5px, calc(1.5vh + 0.28vw), 12pt);
+  line-height: 1.45;
   color: #434343;
   text-align: left;
 }
 
 .tight {
-  line-height: 1.38;
+  line-height: 1.35;
+}
+
+/* Extra breathing room where the original used <br> spacers */
+.spaced {
+  margin-top: clamp(4px, 1.5vh, 20px);
 }
 
 .hl {
@@ -118,12 +131,6 @@
 
 /* ---- Responsive (breakpoints match the original theme) ---- */
 
-@media only screen and (max-width: 1279px) and (min-width: 768px) {
-  .heading {
-    font-size: 34pt;
-  }
-}
-
 @media only screen and (max-width: 767px) {
   .nav {
     display: none;
@@ -133,26 +140,20 @@
     padding-left: 16px;
   }
 
-  .siteTitle {
-    font-size: 14pt;
-  }
-
   .container {
     max-width: 544px;
-  }
-
-  .heading {
-    font-size: 30pt;
-    padding-top: calc(136px + 34pt);
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
 
-@media only screen and (max-width: 479px) {
-  .siteTitle {
-    font-size: 13pt;
+/* Short viewports (landscape phones): shed every non-essential pixel */
+@media only screen and (max-height: 520px) {
+  .container {
+    padding-bottom: 8px;
   }
 
   .heading {
-    font-size: 25pt;
+    margin-bottom: 4px;
   }
 }
