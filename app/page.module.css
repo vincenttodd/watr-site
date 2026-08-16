@@ -14,10 +14,11 @@
   /*
    * The master scale unit.
    *   - 2.6vh  : height-driven, so content fills the viewport top to bottom
-   *   - 100vw/44: width guard, so the column never outgrows a narrow screen
+   *   - 100vw/88: width guard, sized so the longest paragraph stays on a
+   *               single line inside the 78em column (see .container)
    *   - 11px..64px: floor for tiny phones, ceiling for very large displays
    */
-  --f: clamp(11px, min(2.6vh, 100vw / 44), 64px);
+  --f: clamp(11px, min(2.6vh, 100vw / 88), 64px);
 
   background: #fff;
   color: rgba(28, 28, 28, 1);
@@ -79,7 +80,8 @@
 .container {
   font-size: var(--f); /* every child below is sized in em off this */
   width: 100%;
-  max-width: 44em;
+  /* Wide measure: keeps each bullet on one line on desktop. */
+  max-width: 78em;
   margin: 0 auto;
   padding: 0 2.25em 1.6em;
   display: flex;
@@ -179,11 +181,11 @@
  */
 @media only screen and (max-height: 560px) {
   .page {
-    --f: clamp(10px, min(2.6vh, 100vw / 70), 64px);
+    /* Lower floor: the 11px floor would force wrapping that cannot fit here. */
+    --f: clamp(8px, min(2.6vh, 100vw / 88), 64px);
   }
 
   .container {
-    max-width: 70em;
     padding-bottom: 0.6em;
     gap: 0.7em;
   }
