@@ -61,8 +61,7 @@ export default function Home() {
             </span>
           </p>
 
-          <p className={s.p}>
-            <br />
+          <p className={`${s.p} ${s.spaced}`}>
             prev wrote 400+ page manuscript on every food significant plant
             used by indigenous tribe in North America.
           </p>
@@ -82,10 +81,7 @@ export default function Home() {
 
           <p className={s.p}>created Watr app.</p>
 
-          <p className={s.p}>
-            {" "}
-            <br />
-            <br />
+          <p className={`${s.p} ${s.spaced}`}>
             <b className={s.hl}>let&#39;s connect:</b>{" "}
             <a
               className={s.link}
