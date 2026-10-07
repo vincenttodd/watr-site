@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
-import { Crimson_Text, EB_Garamond } from "next/font/google";
-import s from "./page.module.css";
+import localFont from "next/font/local";
+import Image from "next/image";
+import Link from "next/link";
 
-const ebGaramond = EB_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-eb-garamond",
-});
-
-const crimsonText = Crimson_Text({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-crimson-text",
+const neueHaas = localFont({
+  src: "./fonts/NeueHaasUnicaPro.ttf",
+  weight: "400",
+  style: "normal",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,105 +21,67 @@ export const metadata: Metadata = {
   },
 };
 
-const EMAIL = "mailto:ir@vincenttodd.com";
+const EMAIL = "mailto:v@toddagriscience.com";
 
 export default function Home() {
   return (
-    <div className={`${ebGaramond.variable} ${crimsonText.variable} ${s.page}`}>
-      <header className={s.header}>
-        <a className={s.siteTitle} href="/">
-          vincent todd
-        </a>
-        <nav className={s.nav}>
-          <a className={s.navItem} href="/" aria-current="page">
-            me
-          </a>
-        </nav>
-      </header>
+    <main className="flex min-h-dvh items-center bg-white text-neutral-900">
+      <div
+        className={`${neueHaas.className} w-[95%] sm:w-full px-6 text-sm/[21px] font-normal md:ml-[12vw]`}
+      >
+        <div className="space-y-5 max-w-[33rem]">
+          <p className="mb-5.25">yo! i&apos;m Vincent</p>
 
-      <main className={s.main}>
-        <div className={s.container}>
-          <h1 className={s.heading}>
-            Vincent Todd.<span className={s.headingSpace}>{"  "}</span>
-            <span className={s.headingSub}>19 la/chi</span>
-          </h1>
-
-          <p className={`${s.p} ${s.tight}`}>
-            <span className={s.hl}>
-              i&#39;m building the future of agriculture in America.{" "}
-            </span>
+          <p>
+            i&apos;m the founder and ceo of{" "}
+            <Link href="https://toddagriscience.com">
+            <Image
+              src="/todd-wordmark.png"
+              alt="TODD"
+              width={70}
+              height={24}
+              className="inline-block h-[0.72em] w-auto align-baseline"
+            /></Link>
+            , the future of agriculture. i left school in 6th grade, studied
+            ethnobotany at{" "}
+            <Link href="https://ummuseumanthro.wordpress.com">
+            <Image
+              src="/umich-logo.png"
+              alt=""
+              width={17}
+              height={17}
+              className="inline-block h-[1.3em] w-[1.3em] align-[-0.15em]"
+            />{" "}
+            <span className="underline">umich</span></Link> from 13-18 y/o, never went to high school, bootstrapped the
+            company with revenue from seed sales, and hired my first 2 interns
+            at 17.
           </p>
 
-          <p className={`${s.p} ${s.tight}`}>
-            <span className={s.hl}>
-              dropped out at 6th grade, studied ethnobotany @ umich from 13-18
-              y/o, never been to high school.
-            </span>
+          <p>
+            I previously wrote a manuscript on every food significant plant
+            used by indigenous tribe in North America and built one of the
+            largest private seed collections in the US, and the largest
+            indigenous seed collection in the world in partnership with the
+            USDA and NMSU.
           </p>
 
-          <p className={`${s.p} ${s.spaced}`}>
-            prev wrote 400+ page manuscript on every food significant plant
-            used by indigenous tribe in North America.
-          </p>
-
-          <p className={s.p}>
-            built and maintain one of the largest private seed collections in
-            the US, and the largest indigenous seed collection in the world in
-            partnership with the USDA and NMSU.
-          </p>
-
-          <p className={s.p}>
-            hired my first 2 interns at 17, raised pre-seed @ $40m valuation at
-            18, hit 1m organic views in 7 months.
-          </p>
-
-          <p className={s.p}>ran a media agency w/ gen z celebrities.</p>
-
-          <p className={s.p}>created Watr app.</p>
-
-          <p className={`${s.p} ${s.spaced}`}>
-            <b className={s.hl}>let&#39;s connect:</b>{" "}
-            <a
-              className={s.link}
-              href="https://x.com/realvincenttodd"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              X
-            </a>
-            <span className={s.linkSep}>, </span>
-            <a
-              className={s.link}
-              href="https://www.linkedin.com/in/vincenttodd"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              LinkedIn
-            </a>
-            <span className={s.linkSep}>, </span>
-            <a
-              className={s.link}
-              href="https://www.instagram.com/realvincenttodd"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Instagram
-            </a>
-          </p>
-
-          <p className={s.p}>
-            <b>wanna chat?</b>{" "}
-            <a className={s.link} href={EMAIL}>
-              hit me up
-            </a>
-            .
-          </p>
-
-          <p className={s.p}>
-            i write angel checks to young founders, so reach out.
+          <p>
+            we believe the most important role in society is the people growing
+            food. everyone eats. and that sustainable agriculture will be the
+            path to revitalizing the industry, improving consumer health and
+            healing the environment.
           </p>
         </div>
-      </main>
-    </div>
+        <div className="w-full mt-5.5">
+          <p className="w-full">
+            we are hiring across software, biochemistry, gtm, and design. i
+            also invest.{" "}
+            <Link href={EMAIL} className="underline">
+              hit me up →
+            </Link>
+          </p>
+        </div>
+      </div>
+    </main>
   );
 }
