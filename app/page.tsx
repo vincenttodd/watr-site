@@ -34,15 +34,17 @@ export default function Home() {
 
           <p>
             i&apos;m the founder and ceo of{" "}
+            <Link href="https://toddagriscience.com">
             <Image
               src="/todd-wordmark.png"
               alt="TODD"
               width={70}
               height={24}
               className="inline-block h-[0.72em] w-auto align-baseline"
-            />
+            /></Link>
             , the future of agriculture. i left school in 6th grade, studied
             ethnobotany at{" "}
+            <Link href="https://ummuseumanthro.wordpress.com">
             <Image
               src="/umich-logo.png"
               alt=""
@@ -50,7 +52,7 @@ export default function Home() {
               height={17}
               className="inline-block h-[1.3em] w-[1.3em] align-[-0.15em]"
             />{" "}
-            <span className="underline"><Link href="https://ummuseumanthro.wordpress.com">umich</Link></span> from 13-18 y/o, never went to high school, bootstrapped the
+            <span className="underline">umich</span></Link> from 13-18 y/o, never went to high school, bootstrapped the
             company with revenue from seed sales, and hired my first 2 interns
             at 17.
           </p>
